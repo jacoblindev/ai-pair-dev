@@ -4,7 +4,7 @@ When you run several PRDs concurrently, isolate work and preserve the “one sub
 
 ## Branching
 
-- Branch names: `feat/<short-prd-name>-<seq>` (e.g., `feat/dark-mode-1`).
+- Branch names: `feat/{{short-prd-name}}-{{seq}}` (e.g., `feat/dark-mode-1`).
 - One active sub-task per branch. If you need two in parallel, use separate branches.
 
 ## Labels and Task Files

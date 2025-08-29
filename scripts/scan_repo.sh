@@ -23,7 +23,7 @@ guess_test_cmd() {
     java) echo "mvn -q test || gradle test" ;;
     js-ts) echo "npm test || pnpm test || yarn test" ;;
     python) echo "pytest -q" ;;
-    *) echo "<add stack-specific test command>" ;;
+    *) echo "{{add stack-specific test command}}" ;;
   esac
 }
 
