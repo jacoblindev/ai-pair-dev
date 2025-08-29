@@ -1,0 +1,9 @@
+{
+  "notes": "Illustrative blocklist; refine per-project",
+  "blocked": [
+    { "name": "left-pad", "ecosystem": "npm", "reason": "tiny utility; avoid dependency bloat" },
+    { "name": "log4j:log4j", "ecosystem": "maven", "reason": "security history; prefer logback/slf4j" },
+    { "name": "GPL-only-libs", "ecosystem": "any", "reason": "license incompatibility with Apache-2.0 (project-dependent)" }
+  ]
+}
+
