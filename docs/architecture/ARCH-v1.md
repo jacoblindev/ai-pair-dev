@@ -1,5 +1,7 @@
+---
 version: v1
 status: draft
+---
 
 # Architecture (SD/SA)
 
@@ -19,6 +21,7 @@ status: draft
 - ui (if present): web/mobile/cli; calls app public APIs.
 
 Allowed imports:
+
 - ui → app; app → domain, ports; infra → ports; shared utils are read-only.
 
 ## Key Contracts
@@ -39,4 +42,3 @@ UI → App Service → Domain Policy → Port(Outbound) → Adapter(Infra) → E
 
 - Risk: Boundary drift. Mitigation: Review changes against this doc; add ADRs for exceptions.
 - Risk: Dependency creep. Mitigation: ADR required for runtime deps; prefer stdlib/owned utils.
-

@@ -1,7 +1,9 @@
+---
 version: v1
 status: draft
 slug: sample-feature
 prd: ../../prd/sample-feature/v1/prd.md
+---
 
 # Tasks — Sample Feature
 
@@ -22,4 +24,3 @@ prd: ../../prd/sample-feature/v1/prd.md
 - [ ] Implement Domain Policy A
   - Acceptance: Public behavior covered by tests; boundaries respected per latest ARCH; ADR updated if a new runtime dep is introduced.
   - Notes: Trade‑offs/ADRs linked here.
-
