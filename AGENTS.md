@@ -27,6 +27,19 @@ Optional extras: size/complexity heuristics, architecture lint (ArchUnit/eslint-
 4) Sub-tasks: 1–4h each; implement minimal code; run tests; conventional commits.
 5) PR: Ensure gates pass locally.
 
+## Agent Checklist (Concise)
+
+- Clarify: Ask 5–8 focused questions to remove ambiguity; confirm feature slug and version (vN).
+- Draft PRD: Create `docs/prd/<slug>/vN/prd.md` per `rules/create-prd.md` with acceptance criteria and a Module Plan.
+- Draft SD/SA + ADR: Write `docs/architecture/ARCH-vN.md` (1–2 pages) and `docs/adr/ADR-0001-<title>.md` covering key decisions.
+- Propose Parents: Create `docs/tasks/<slug>/vN/tasks.md` with 0.0 Scaffolding and X.0 Align & prune tests; pause for user approval.
+- Expand Sub‑tasks: Break parents into 1–4h sub‑tasks with acceptance criteria (tests, boundaries, ADR if new dep).
+- Implement Loop: For the approved sub‑task, implement minimal code, write/update tests, validate gates (tests/behavior, boundaries vs latest ARCH, ADR for runtime deps), update tasks, and pause before the next sub‑task.
+- Handle Deps: When proposing a new runtime dependency, open a short ADR under `docs/adr/` and request approval.
+- Versioning: On meaningful scope/boundary changes, bump to `vN+1` for PRD/Tasks, add `ARCH-vN+1.md`, and link superseding ADRs.
+
+Approval checkpoints: after PRD, after ARCH/first ADR, after parent list, and before starting each sub‑task; also when introducing a new runtime dependency.
+
 ## First Prompts (examples)
 
 - “Follow AGENTS.md. Start with `rules/create-prd.md`. Save PRD to `docs/prd/<slug>/v1/prd.md`. Produce `docs/architecture/ARCH-v1.md` + an ADR in `docs/adr/`. Propose parent tasks in `docs/tasks/<slug>/v1/tasks.md`; pause for confirmation.”
