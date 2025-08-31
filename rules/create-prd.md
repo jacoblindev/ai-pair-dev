@@ -96,7 +96,7 @@ Use these as heuristics, not hard gates. For small changes, you may skip.
 
 Right after finalizing the PRD, produce a lightweight System Design / Solution Architecture (SD/SA). Keep it to 1–2 pages and favor clear boundaries over prose.
 
-Inputs: The PRD. Outputs: `ARCH.md` (1–2 pages) + `ADR-0001`.
+Inputs: The PRD. Outputs: `docs/architecture/ARCH-vN.md` (1–2 pages) + first `docs/adr/ADR-00xx-<short-title>.md`.
 
 Include:
 
@@ -112,7 +112,7 @@ Include:
 
 ## Output of this step
 
-- A PRD document including the sections above, plus a concise glossary if needed.
-- A short SD/SA: `ARCH.md` + `ADR-0001` derived from the PRD.
+- A PRD document including the sections above, plus a concise glossary if needed, saved to `docs/prd/<feature-slug>/vN/prd.md`.
+- A short SD/SA: `docs/architecture/ARCH-vN.md` + an ADR under `docs/adr/`, derived from the PRD.
 
-Next: Use the SD/SA to drive the task list in `/rules/generate-tasks.md`.
+Next: Use the SD/SA to drive the task list in `/rules/generate-tasks.md` and create `docs/tasks/<feature-slug>/vN/tasks.md`.

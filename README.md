@@ -12,6 +12,13 @@ A minimal, junior-friendly workflow for shipping with a Product Requirements Doc
   - `rules/generate-tasks.md`
   - `rules/process-task-list.md`
 
+## Docs Layout
+
+- PRD: `docs/prd/<feature-slug>/vN/prd.md`
+- SD/SA (project-wide): `docs/architecture/ARCH-vN.md`
+- ADRs: `docs/adr/ADR-00xx-<short-title>.md`
+- Tasks: `docs/tasks/<feature-slug>/vN/tasks.md`
+
 ## License
 
-Apache-2.0. See `LICENSE`.
+Apache-2.0. See [LICENSE](LICENSE).

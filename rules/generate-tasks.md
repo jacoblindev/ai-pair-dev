@@ -8,18 +8,18 @@ The original rhythm is preserved: assess → plan → parent tasks → confirm �
 
 ## 0. Prerequisite: SD/SA Exists
 
-- Ensure `ARCH.md` and `ADR-0001` exist per `/rules/create-prd.md`.
-- Treat `ARCH.md` as the current source of truth for module boundaries and allowed deps.
+- Ensure `docs/architecture/ARCH-vN.md` and at least one ADR under `docs/adr/` exist per `/rules/create-prd.md`.
+- Treat the latest `docs/architecture/ARCH-v*.md` as the source of truth for module boundaries and allowed deps.
 
 ## 1. Assess Current State
 
-- Capture a quick repo snapshot (tree, stack, test command, notable risks) in `ASSESSMENT.md` or task notes.
+- Capture a quick repo snapshot (tree, stack, test command, notable risks) in the top of your tasks file or a short `ASSESSMENT.md`.
 - Summarize any major risks or refactors in the parent tasks.
 
 ## 2. Confirm PRD & Guardrails
 
 - Ensure the PRD includes: Module Decomposition Plan, Test Strategy, Dependency Policy, and Reference Architecture.
-- Confirm `ARCH.md` boundaries are current; update PRD or `ARCH.md` if mismatched before proceeding.
+- Confirm the latest `docs/architecture/ARCH-v*.md` boundaries are current; update PRD or ARCH if mismatched before proceeding.
 
 ## 3. Baseline Settings (Optional)
 
@@ -28,9 +28,9 @@ The original rhythm is preserved: assess → plan → parent tasks → confirm �
 
 ## 3b. Architecture & Scaffolding First
 
-- Create the directory layout + empty stubs per PRD’s Module Plan and `ARCH.md` boundaries.
+- Create the directory layout + empty stubs per PRD’s Module Plan and the latest ARCH boundaries.
 - Expose only public APIs; keep stubs thin. No heavy logic yet.
-- Capture any intentional deviations from `ARCH.md` with an ADR.
+- Capture any intentional deviations from ARCH with an ADR.
 
 ## 3c. Optional Guardrails
 
@@ -44,7 +44,7 @@ Always include the scaffolding task first:
 
 - [ ] 0.0 Establish architecture scaffolding
   - [ ] 0.1 Create directory layout & stubs from PRD Module Plan
-  - [ ] 0.2 Align code with `ARCH.md` boundaries; add/update ADR if deviating
+  - [ ] 0.2 Align code with ARCH boundaries; add/update ADR if deviating
   - [ ] 0.3 Agree simple dependency rule (ADR required for new runtime deps)
 
 Then include feature slices or layers as parents (one line each). Keep them small and cohesive.
@@ -69,12 +69,12 @@ Pause/confirm: Share the parent list for confirmation before generating sub-task
 Example sub-task shape:
 
 - [ ] Implement Domain Policy A
-  - Acceptance: Public behavior covered by tests; boundaries respected per `ARCH.md`; ADR updated if a new runtime dep is introduced.
+  - Acceptance: Public behavior covered by tests; boundaries respected per latest ARCH; ADR updated if a new runtime dep is introduced.
   - Notes: Any ADR or trade-offs captured.
 
 ---
 
 ## Output of this step
 
-- A task list with parents (including 0.0 Scaffolding and X.0 Align & Prune Tests) and scoped sub-tasks ready for `/rules/process-task-list.md`.
-- Traceability notes linking parents/sub-tasks to sections in the PRD and `ARCH.md`.
+- A task list under `docs/tasks/<feature-slug>/vN/tasks.md` with parents (including 0.0 Scaffolding and X.0 Align & Prune Tests) and scoped sub-tasks ready for `/rules/process-task-list.md`.
+- Traceability notes linking parents/sub-tasks to sections in the PRD (`docs/prd/<feature-slug>/vN/prd.md`) and ARCH (`docs/architecture/ARCH-vN.md`).

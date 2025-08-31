@@ -27,12 +27,12 @@ Before marking a sub-task complete, pass these core gates:
 
 2) Boundaries gate
 
-    - Imports respect `ARCH.md` boundaries and declared public APIs.
-    - Any intentional deviation is documented (ADR/update `ARCH.md`).
+    - Imports respect latest `docs/architecture/ARCH-v*.md` boundaries and declared public APIs.
+    - Any intentional deviation is documented (ADR/update ARCH under `docs/architecture/`).
 
 3) Dependency gate
 
-    - Any new runtime dependency has an ADR (alternatives, license, security posture) and approval.
+    - Any new runtime dependency has an ADR under `docs/adr/` (alternatives, license, security posture) and approval.
 
 Optional extras (adopt if useful):
 
@@ -49,7 +49,7 @@ If any required gate fails, fix or split the work before proceeding.
 2. Write/update tests aligned to public behavior.
 3. Run tests and any quick checks you use; update ADRs if deps changed.
 4. Commit with a conventional message.
-5. Open/Update PR, ensure CI passes.
+5. Open/Update PR, ensure CI passes (if applicable).
 
 ---
 
