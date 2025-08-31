@@ -1,4 +1,4 @@
-# Process Task List (v2)
+# Process Task List (lean v2)
 
 Purpose: Ship one sub-task at a time with crisp “done” gates to preserve structure, tests, and dependency hygiene. This builds directly on the original flow: implement → test → commit.
 
@@ -17,31 +17,29 @@ Commit style: conventional commits. Example: `feat(domain): add price rounding p
 
 ## Task Implementation / Completion Protocol
 
-Before marking a sub-task complete, pass all gates:
+Before marking a sub-task complete, pass these core gates:
 
-1) Structure gate
+1) Test/Behavior gate
 
-    - No file exceeds `max_file_lines`.
-    - No function exceeds `max_func_lines` or `max_cyclomatic`.
+    - Tests cover the new or changed public behavior.
+    - Obsolete tests are updated/removed in the same PR.
+    - Local runtime remains reasonable (agree within the team).
+
+2) Boundaries gate
+
     - Imports respect `ARCH.md` boundaries and declared public APIs.
-
-2) Test policy gate
-
-    - Remove or update tests that conflict with current PRD (do this in the same PR).
-    - Avoid testing internals; focus on public behavior and contracts.
-    - Keep local runtime within the configured time budget.
+    - Any intentional deviation is documented (ADR/update `ARCH.md`).
 
 3) Dependency gate
 
-    - Any new runtime dependency requires an ADR and approval.
-    - Run license/security checks appropriate to the stack/tooling in use.
-    - Respect allowlist/blocklist baselines.
+    - Any new runtime dependency has an ADR (alternatives, license, security posture) and approval.
 
-4) Architecture lint
+Optional extras (adopt if useful):
 
-    - Where applicable, run ArchUnit (Java) or eslint-boundaries (JS/TS) to check import boundaries.
+    - Heuristics for file/function size and cyclomatic complexity.
+    - Architecture lint (ArchUnit/eslint-boundaries) and simple dep/license checks.
 
-If any gate fails, fix or split the work before proceeding.
+If any required gate fails, fix or split the work before proceeding.
 
 ---
 
@@ -49,7 +47,7 @@ If any gate fails, fix or split the work before proceeding.
 
 1. Implement minimal code to meet acceptance criteria.
 2. Write/update tests aligned to public behavior.
-3. Run: file-size, complexity stub, deps check, and tests.
+3. Run tests and any quick checks you use; update ADRs if deps changed.
 4. Commit with a conventional message.
 5. Open/Update PR, ensure CI passes.
 
@@ -57,4 +55,4 @@ If any gate fails, fix or split the work before proceeding.
 
 ## Output of this step
 
-- A series of small, well-documented commits that pass structure/test/dep gates, ready to merge.
+- A series of small, well-documented commits that pass core gates, ready to merge.

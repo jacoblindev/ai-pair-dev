@@ -1,4 +1,4 @@
-# Create PRD (v2)
+# Create PRD (lean v2)
 
 Purpose: Produce a PRD clear enough for a junior developer to implement, while also steering structure and sustainability. Keep it concise, testable, and specific.
 
@@ -33,9 +33,9 @@ Keep these sections brief but unambiguous. Favor examples over prose.
 
 ---
 
-## Reference Architecture (Required)
+## Reference Architecture (lean)
 
-Pick one and state why. Define module boundaries and allowed dependencies.
+Pick one and state why. Define module boundaries and allowed dependencies in a few bullets.
 
 - Options: Hexagonal (Ports/Adapters), Clean Architecture, or Feature-Sliced.
 - Dependencies: Declare allowed vs forbidden cross-module imports.
@@ -64,13 +64,13 @@ src/
   ui/             # web/mobile/cli layers
 ```
 
-## File & Function Size Limits (Required)
+## Suggested Size & Complexity Limits (Optional)
 
-- max_file_lines: 500
-- max_func_lines: 70
-- max_cyclomatic: 10
+- max_file_lines: 500 (suggested)
+- max_func_lines: 70 (suggested)
+- max_cyclomatic: 10 (suggested)
 
-If any exceed the limit, split or refactor before merging. Capture intentional exceptions with an ADR.
+Use these as heuristics, not hard gates. For small changes, you may skip.
 
 ## Shared Conventions (Required)
 
@@ -80,23 +80,39 @@ If any exceed the limit, split or refactor before merging. Capture intentional e
 
 ## Test Strategy (Required)
 
-- Prefer unit tests and contract/API tests; minimize brittle snapshots.
-- If requirements change, obsolete tests are removed or updated in the same PR.
-- Coverage targets: 70% overall; 90% for pure logic modules (domain/util).
-- Local test runtime budget: < 5 minutes (configurable).
+- Prefer unit and contract/API tests; minimize brittle snapshots.
+- If requirements change, obsolete tests are updated or removed in the same PR.
 - Focus on public behavior; avoid testing internals directly.
+- Keep local test runtime reasonable (e.g., under a few minutes) — agree with the team.
 
 ## Dependency Policy (Required)
 
-- Maintain an allowlist/blocklist; justify new runtime deps via ADR.
-- ADR justification includes: size, license, security posture, alternatives considered.
-- Targets: Keep prod deps below 30; dev deps below 40 (configurable).
+- Any new runtime dependency must be justified with a short ADR (alternatives, license, security posture).
+- Prefer small dependency footprints; avoid adding deps for trivial utilities.
+
+---
+
+## Produce SD/SA From The PRD (lean)
+
+Right after finalizing the PRD, produce a lightweight System Design / Solution Architecture (SD/SA). Keep it to 1–2 pages and favor clear boundaries over prose.
+
+Inputs: The PRD. Outputs: `ARCH.md` (1–2 pages) + `ADR-0001`.
+
+Include:
+
+- Architecture overview and primary drivers (performance, privacy, scale).
+- Module map: boundaries, allowed dependencies, and import rules (tie back to Module Plan).
+- Key contracts: Public APIs/interfaces between modules or external systems.
+- Data flow: One call-flow and state ownership decisions.
+- Non-functionals: Key budgets (latency/SLA/resource) and testability notes.
+- Tech choices: Libraries/services with a one-line rationale (details in ADR).
+- Risks: Top 3 risks and mitigations.
 
 ---
 
 ## Output of this step
 
-- A PRD file including the sections above, plus a concise glossary if needed.
-- Draft `ARCH.md` populated for this project and an `ADR-0001` capturing the chosen architecture.
+- A PRD document including the sections above, plus a concise glossary if needed.
+- A short SD/SA: `ARCH.md` + `ADR-0001` derived from the PRD.
 
-Use this PRD to drive the task list in `/rules/generate-tasks.md`.
+Next: Use the SD/SA to drive the task list in `/rules/generate-tasks.md`.

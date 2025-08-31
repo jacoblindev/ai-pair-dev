@@ -1,10 +1,15 @@
-# Generate Tasks (v2)
+# Generate Tasks (lean v2)
 
-Goal: Turn the PRD into a minimal, ordered task list that establishes architecture scaffolding first, then iterates safely with explicit gates.
+Goal: Turn the PRD + SD/SA into a minimal, ordered task list that establishes architecture scaffolding first, then iterates safely with a few high‑ROI gates.
 
 The original rhythm is preserved: assess → plan → parent tasks → confirm → sub-tasks.
 
 ---
+
+## 0. Prerequisite: SD/SA Exists
+
+- Ensure `ARCH.md` and `ADR-0001` exist per `/rules/create-prd.md`.
+- Treat `ARCH.md` as the current source of truth for module boundaries and allowed deps.
 
 ## 1. Assess Current State
 
@@ -14,36 +19,33 @@ The original rhythm is preserved: assess → plan → parent tasks → confirm �
 ## 2. Confirm PRD & Guardrails
 
 - Ensure the PRD includes: Module Decomposition Plan, Test Strategy, Dependency Policy, and Reference Architecture.
-- Ensure `ARCH.md` and an initial `ADR-0001` exist or will be created in scaffolding.
+- Confirm `ARCH.md` boundaries are current; update PRD or `ARCH.md` if mismatched before proceeding.
 
-## 3. Baseline Settings
+## 3. Baseline Settings (Optional)
 
-- Agree thresholds: file size, function size, cyclomatic complexity, test budget, dependency budgets.
+- Agree any thresholds you care about (file size, function size, complexity, test budget).
 - Decide on allowlist/blocklist approach and how to enforce it (tooling optional).
 
 ## 3b. Architecture & Scaffolding First
 
-- Create the directory layout + empty stubs per PRD’s Module Plan.
-- Add `ARCH.md` (from template) and `ADR-0001` capturing the architecture.
+- Create the directory layout + empty stubs per PRD’s Module Plan and `ARCH.md` boundaries.
 - Expose only public APIs; keep stubs thin. No heavy logic yet.
+- Capture any intentional deviations from `ARCH.md` with an ADR.
 
-## 3c. Guardrails
+## 3c. Optional Guardrails
 
-- Wire file-size and complexity checks; add optional pre-commit hooks.
-- Add dependency checks (allowlist/blocklist; license check).
+- Add simple checks if desired (file-size/complexity, linting, dependency/license).
 
 ---
 
 ## Phase 1: Generate Parent Tasks
 
-Always include the scaffolding and guardrail tasks first:
+Always include the scaffolding task first:
 
-- [ ] 0.0 Establish architecture scaffolding and guards
-  - [ ] 0.1 Create directory layout & stubs from PRD plan
-  - [ ] 0.2 Add ARCH.md + ADR-0001 recording the architecture
-  - [ ] 0.3 Add linters/complexity/file-size checks + pre-commit
-  - [ ] 0.4 Add architecture lint notes (ArchUnit/eslint-boundaries)
-  - [ ] 0.5 Dependency hygiene baseline (allowlist/blocklist + license scan)
+- [ ] 0.0 Establish architecture scaffolding
+  - [ ] 0.1 Create directory layout & stubs from PRD Module Plan
+  - [ ] 0.2 Align code with `ARCH.md` boundaries; add/update ADR if deviating
+  - [ ] 0.3 Agree simple dependency rule (ADR required for new runtime deps)
 
 Then include feature slices or layers as parents (one line each). Keep them small and cohesive.
 
@@ -67,11 +69,12 @@ Pause/confirm: Share the parent list for confirmation before generating sub-task
 Example sub-task shape:
 
 - [ ] Implement Domain Policy A
-  - Acceptance: Pure function coverage ≥ 90%; no file > 500 lines; public API unchanged; negative tests included.
+  - Acceptance: Public behavior covered by tests; boundaries respected per `ARCH.md`; ADR updated if a new runtime dep is introduced.
   - Notes: Any ADR or trade-offs captured.
 
 ---
 
 ## Output of this step
 
-- A task list with parents (including 0.0 Scaffolding & Guards and X.0 Align & Prune Tests) and scoped sub-tasks ready for `/rules/process-task-list.md`.
+- A task list with parents (including 0.0 Scaffolding and X.0 Align & Prune Tests) and scoped sub-tasks ready for `/rules/process-task-list.md`.
+- Traceability notes linking parents/sub-tasks to sections in the PRD and `ARCH.md`.
