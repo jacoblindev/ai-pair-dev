@@ -88,7 +88,7 @@ If any exceed the limit, split or refactor before merging. Capture intentional e
 
 ## Dependency Policy (Required)
 
-- Maintain an allowlist/blocklist (see `configs/`); justify new runtime deps via ADR.
+- Maintain an allowlist/blocklist; justify new runtime deps via ADR.
 - ADR justification includes: size, license, security posture, alternatives considered.
 - Targets: Keep prod deps below 30; dev deps below 40 (configurable).
 
@@ -97,6 +97,6 @@ If any exceed the limit, split or refactor before merging. Capture intentional e
 ## Output of this step
 
 - A PRD file including the sections above, plus a concise glossary if needed.
-- Draft `templates/ARCH.md` populated for this project and an `ADR-0001` capturing the chosen architecture.
+- Draft `ARCH.md` populated for this project and an `ADR-0001` capturing the chosen architecture.
 
 Use this PRD to drive the task list in `/rules/generate-tasks.md`.

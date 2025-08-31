@@ -34,7 +34,7 @@ Before marking a sub-task complete, pass all gates:
 3) Dependency gate
 
     - Any new runtime dependency requires an ADR and approval.
-    - Run license/security checks (stack-specific guidance in `docs/STACK-INTEGRATIONS.md`).
+    - Run license/security checks appropriate to the stack/tooling in use.
     - Respect allowlist/blocklist baselines.
 
 4) Architecture lint

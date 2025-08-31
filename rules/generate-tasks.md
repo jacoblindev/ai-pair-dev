@@ -8,18 +8,18 @@ The original rhythm is preserved: assess → plan → parent tasks → confirm �
 
 ## 1. Assess Current State
 
-- Run `scripts/scan_repo.sh` to generate `ASSESSMENT.md` (repo tree, stack detection, test command guess, and notes).
+- Capture a quick repo snapshot (tree, stack, test command, notable risks) in `ASSESSMENT.md` or task notes.
 - Summarize any major risks or refactors in the parent tasks.
 
 ## 2. Confirm PRD & Guardrails
 
 - Ensure the PRD includes: Module Decomposition Plan, Test Strategy, Dependency Policy, and Reference Architecture.
-- Draft `templates/ARCH.md` and `templates/ADR-0001-template.md` for project context.
+- Ensure `ARCH.md` and an initial `ADR-0001` exist or will be created in scaffolding.
 
 ## 3. Baseline Settings
 
-- Configure `.aidev.yml` thresholds: file size, function size, cyclomatic complexity, test budget, dependency budgets.
-- Seed allowlist/blocklist JSON files under `configs/`.
+- Agree thresholds: file size, function size, cyclomatic complexity, test budget, dependency budgets.
+- Decide on allowlist/blocklist approach and how to enforce it (tooling optional).
 
 ## 3b. Architecture & Scaffolding First
 

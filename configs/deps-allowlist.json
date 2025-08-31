@@ -1,9 +1,0 @@
-{
-  "notes": "Illustrative allowlist; refine per-project",
-  "allowed": [
-    { "name": "requests", "ecosystem": "pypi", "reason": "ubiquitous http client" },
-    { "name": "lodash", "ecosystem": "npm", "reason": "general utilities; tree-shake when possible" },
-    { "name": "spring-boot-starter-web", "ecosystem": "maven", "reason": "standard web starter" }
-  ]
-}
-
