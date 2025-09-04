@@ -2,6 +2,8 @@
 
 Purpose: Produce a PRD clear enough for a junior developer to implement, while also steering structure and sustainability. Keep it concise, testable, and specific.
 
+Reader assumptions: Write for a junior developer; be explicit, avoid jargon; prefer examples over prose.
+
 This is the v2 of the original guidance; the flow and intent are preserved: clarify → specify the product → constrain the solution. New in v2 are required sections to encode architecture and guardrails.
 
 ---
