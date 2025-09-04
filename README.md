@@ -1,8 +1,8 @@
-# AI Dev Tasks (Lean)
+# AI PAIR DEV
 
-Builds upon snarktank/ai-dev-tasks (Apache-2.0).
+Lean, agent-friendly workflow for PRD → SD/SA → Tasks → Sub‑tasks with simple guardrails and versioned docs.
 
-A minimal, junior-friendly workflow for shipping with a Product Requirements Document (PRD) → Task generation → Task processing. The core rules live in three markdown files.
+Based on ideas from `snarktank/ai-dev-tasks` (Apache‑2.0) with tweaks for AI pair‑development.
 
 ## Start Here
 
@@ -12,80 +12,79 @@ A minimal, junior-friendly workflow for shipping with a Product Requirements Doc
   - `rules/generate-tasks.md`
   - `rules/process-task-list.md`
 
+Current state (preloaded in this repo):
+
+- `docs/architecture/ARCH-v1.md` (draft) defines hexagonal boundaries.
+- `docs/adr/ADR-0001-architecture-style.md` is accepted and anchors the style.
+- `docs/prd/sample-feature/v1/prd.md` and `docs/tasks/sample-feature/v1/tasks.md` show the expected structure.
+
 ## Docs Layout
 
 - PRD: `docs/prd/<feature-slug>/vN/prd.md`
-- SD/SA (project-wide): `docs/architecture/ARCH-vN.md`
+- SD/SA (project‑wide): `docs/architecture/ARCH-vN.md`
 - ADRs: `docs/adr/ADR-00xx-<short-title>.md`
 - Tasks: `docs/tasks/<feature-slug>/vN/tasks.md`
 
-## User Manual (Step‑by‑Step)
+## Workflow (Step‑by‑Step)
 
-1) Define Your Feature
+1) Define your feature
 
-    - Feature slug: short, kebab‑case (e.g., `dark-mode-toggle`).
-    - Version: start at `v1` per feature; bump to `v2`, `v3` as scope evolves.
+    - Pick a slug in kebab‑case (e.g., `dark-mode-toggle`).
+    - Start at `v1` per feature; bump to `vN+1` as scope changes.
 
 2) Create the PRD
 
-    - Path: `docs/prd/<feature-slug>/vN/prd.md`
-    - Use `rules/create-prd.md`. Keep it brief and testable.
-    - Include: context, goals, non‑goals, user stories, acceptance criteria, UX notes, risks, telemetry.
-    - Add a lean Reference Architecture choice and a Module Decomposition Plan.
+    - Path: `docs/prd/<feature-slug>/vN/prd.md`.
+    - Follow `rules/create-prd.md`; include acceptance criteria, Reference Architecture, and a Module Decomposition Plan.
 
-3) Write SD/SA (Architecture) + First ADR
+3) SD/SA + first ADR
 
-    - ARCH: `docs/architecture/ARCH-vN.md` (1–2 pages). Boundaries, contracts, one data flow, budgets, risks.
-    - ADR: `docs/adr/ADR-00xx-<short-title>.md` for key decisions (e.g., architecture style, new runtime dep).
-    - ADRs are short: context → decision → consequences → alternatives.
+    - ARCH: `docs/architecture/ARCH-vN.md` (1–2 pages). Current baseline: see `docs/architecture/ARCH-v1.md`.
+    - ADR: `docs/adr/ADR-00xx-<short-title>.md` for key decisions. Current baseline: `docs/adr/ADR-0001-architecture-style.md` (accepted).
 
-4) Generate Parent Tasks
+4) Generate parent tasks
 
-    - Path: `docs/tasks/<feature-slug>/vN/tasks.md`
-    - Always include:
-      - 0.0 Establish architecture scaffolding (layout, stubs, align to ARCH; ADR if deviating)
-      - X.0 Align & prune tests (retire obsolete tests; add for new public behavior)
-    - Add feature‑specific parent tasks. Share this list for confirmation before expanding.
+    - Path: `docs/tasks/<feature-slug>/vN/tasks.md`.
+    - Always include: 0.0 Scaffolding and X.0 Align & prune tests.
+    - Share parents for confirmation before expanding.
 
-5) Expand Into Sub‑Tasks
+5) Expand into sub‑tasks
 
-    - After confirmation, write sub‑tasks (1–4h each) with clear acceptance criteria.
-    - Prefer vertical slices that show end‑to‑end behavior.
+    - Keep each 1–4h with clear acceptance criteria; prefer vertical slices.
 
-6) Work Loop For Each Sub‑Task
+6) Implement loop per sub‑task
 
-    - Implement minimal code to meet acceptance criteria.
-    - Tests: cover public behavior; update/remove obsolete tests.
-    - Boundaries: respect latest `docs/architecture/ARCH-v*.md`; document deviations (update ARCH or add ADR).
-    - Dependencies: if adding a runtime dep, write an ADR under `docs/adr/`.
+    - Implement minimal code; keep changes small.
+    - Tests: cover public behavior; update/remove obsolete tests in the same PR.
+    - Boundaries: respect latest `docs/architecture/ARCH-v*.md`; document deviations via ADR or update ARCH.
+    - Dependencies: any new runtime dep requires an ADR under `docs/adr/`.
     - Commit: conventional style, e.g., `feat(domain): add price rounding policy`.
-    - Update the tasks file (check off sub‑task; add notes/links to ADRs).
+    - Update the tasks file (check off sub‑task; link ADRs/notes).
 
-7) Versioning Rules
+7) Versioning
 
-    - PRD/Tasks: when scope meaningfully changes, copy to a new `vN+1/` folder and set previous to `status: superseded`.
-    - ARCH: when boundaries change, add `ARCH-vN+1.md` and link to ADRs that motivated the change.
-    - ADRs: never edit accepted ADRs; write a new one and mark supersession via links.
+    - PRD/Tasks: copy to `vN+1/` when scope/boundaries change; mark previous as `status: superseded`.
+    - ARCH: add `ARCH-vN+1.md` when boundaries change; link motivating ADRs.
+    - ADRs: don’t edit accepted ADRs; write a superseding ADR.
 
 8) Review & PR
 
-    - Ensure the sub‑task meets core gates (tests/behavior, boundaries, ADRs for runtime deps).
-    - Open/Update PR and get approval (if applicable).
+    - Ensure gates pass locally (tests/behavior, boundaries, ADRs for runtime deps) and open/update a PR.
 
 ## Roles: User vs Agent
 
 At a glance
 
-- User: Defines outcomes/constraints, answers clarifying questions, approves PRD/ARCH/tasks, prioritizes and approves sub‑tasks, approves new runtime deps (via ADR), signs off on version bumps and merges.
-- Agent: Asks targeted questions, drafts PRD/ARCH/ADRs, proposes tasks/sub‑tasks, implements sub‑tasks, runs checks/tests, updates docs/tasks, pauses at approval checkpoints.
+- User: Defines outcomes/constraints, answers clarifying questions, approves PRD/ARCH/tasks, prioritizes sub‑tasks, approves runtime deps (via ADR), signs off on version bumps and merges.
+- Agent: Asks targeted questions, drafts PRD/ARCH/ADRs, proposes tasks/sub‑tasks, implements sub‑tasks, runs tests/checks, updates docs/tasks, pauses at approval checkpoints.
 
 Step‑by‑step responsibilities
 
 - PRD
   - User: Provide initial goal; answer clarifying questions; approve `docs/prd/<slug>/v1/prd.md`.
-  - Agent: Ask focused Qs (5–8 max); draft PRD with testable acceptance criteria and Module Plan.
+  - Agent: Ask focused Qs (5–8); draft PRD with testable acceptance criteria and Module Plan.
 - SD/SA + ADR
-  - User: Confirm architecture style and boundaries; approve first ADR.
+  - User: Confirm architecture style/boundaries; approve first ADR.
   - Agent: Draft `docs/architecture/ARCH-v1.md` and `docs/adr/ADR-0001-<title>.md` (context → decision → consequences → alternatives).
 - Parent tasks
   - User: Review/adjust priorities; approve parent list.
@@ -95,10 +94,10 @@ Step‑by‑step responsibilities
   - Agent: Expand parents into 1–4h sub‑tasks with acceptance criteria (tests, boundaries, ADR if new dep).
 - Implement loop
   - User: Approve any new runtime dependency ADR; review outputs.
-  - Agent: Implement minimal code; write/update tests; validate gates; update tasks (check off items, link ADRs); pause before the next sub‑task.
+  - Agent: Implement minimal code; write/update tests; validate gates; update tasks; pause before the next sub‑task.
 - Versioning
   - User: Decide when to bump to `vN+1`; approve superseding docs.
-  - Agent: Copy to new version folder/file, set previous status to superseded, and link ADRs/supersedes.
+  - Agent: Create new versioned docs, mark previous as superseded, link ADRs/supersedes.
 
 Prompt checklist by step
 
@@ -107,7 +106,7 @@ Prompt checklist by step
 - Parents (user → agent): “Generate parents in `docs/tasks/<slug>/v1/tasks.md` (include 0.0 and X.0). Pause before sub‑tasks.”
 - Sub‑tasks (user → agent): “Expand parent {{id}} into 1–4h sub‑tasks with acceptance criteria.”
 - Implement (user → agent): “Proceed with sub‑task {{id}}.”
-- New dep (agent → user): “Proposing ADR for {{dep}}. OK to add? Here’s the trade‑off summary.”
+- New dep (agent → user): “Proposing ADR for {{dep}}. OK to add? Summary of trade‑offs attached.”
 
 ## User Prompts (Examples)
 
@@ -117,4 +116,4 @@ Prompt checklist by step
 
 ## License
 
-Apache-2.0. See [LICENSE](LICENSE).
+Apache‑2.0. See `LICENSE`.
