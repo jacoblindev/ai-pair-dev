@@ -1,80 +1,72 @@
-# Generate Tasks (lean v2)
+# Generate Tasks (lean v3)
 
-Goal: Turn the PRD + SD/SA into a minimal, ordered task list that establishes architecture scaffolding first, then iterates safely with a few high‑ROI gates.
+Goal: Turn the PRD + architecture into a minimal, ordered task list that builds scaffolding first, then iterates safely with high-value gates.
 
-The original rhythm is preserved: assess → plan → parent tasks → confirm → sub-tasks.
+Keep artefacts simple. One markdown file per feature version: `docs/tasks/<feature-slug>-vN.md`.
 
 ---
 
-## 0. Prerequisite: SD/SA Exists
+## 0. Prerequisites
 
-- Ensure `docs/architecture/ARCH-vN.md` and at least one ADR under `docs/adr/` exist per `/rules/create-prd.md`.
-- Treat the latest `docs/architecture/ARCH-v*.md` as the source of truth for module boundaries and allowed deps.
+- Latest PRD exists at `docs/prd/<feature-slug>-vN.md`.
+- Architecture entry exists at `docs/arch/<product>/ARCH-vN.md` and is listed in `docs/arch/index.md`.
+- At least one ADR under `docs/adr/` covers key decisions.
+
+Treat the relevant `ARCH-v*` file as the source of truth for boundaries and allowed dependencies.
+
+---
 
 ## 1. Assess Current State
 
-- Capture a quick repo snapshot (tree, stack, test command, notable risks) in the top of your tasks file or a short `ASSESSMENT.md`.
-- Summarize any major risks or refactors in the parent tasks.
+Capture a quick snapshot at the top of the tasks file (or link an `ASSESSMENT.md`):
 
-## 2. Confirm PRD & Guardrails
-
-- Ensure the PRD includes: Module Decomposition Plan, Test Strategy, Dependency Policy, and Reference Architecture.
-- Confirm the latest `docs/architecture/ARCH-v*.md` boundaries are current; update PRD or ARCH if mismatched before proceeding.
-
-## 3. Baseline Settings (Optional)
-
-- Agree any thresholds you care about (file size, function size, complexity, test budget).
-- Decide on allowlist/blocklist approach and how to enforce it (tooling optional).
-
-## 3b. Architecture & Scaffolding First
-
-- Create the directory layout + empty stubs per PRD’s Module Plan and the latest ARCH boundaries.
-- Expose only public APIs; keep stubs thin. No heavy logic yet.
-- Capture any intentional deviations from ARCH with an ADR.
-
-## 3c. Optional Guardrails
-
-- Add simple checks if desired (file-size/complexity, linting, dependency/license).
+- Code layout / modules touched
+- Tech stack and main commands (build/test)
+- Known risks, debt, or blockers
+- Pointers to relevant ADRs or portfolio notes
 
 ---
 
-## Phase 1: Generate Parent Tasks
+## 2. Confirm Guardrails
 
-Always include the scaffolding task first:
-
-- [ ] 0.0 Establish architecture scaffolding
-  - [ ] 0.1 Create directory layout & stubs from PRD Module Plan
-  - [ ] 0.2 Align code with ARCH boundaries; add/update ADR if deviating
-  - [ ] 0.3 Agree simple dependency rule (ADR required for new runtime deps)
-
-Then include feature slices or layers as parents (one line each). Keep them small and cohesive.
-
-Add a test alignment parent task:
-
-- [ ] X.0 Align & prune tests
-  - [ ] X.1 Retire tests mismatching updated requirements (same PR)
-  - [ ] X.2 Add/adjust tests for new public behavior only
-  - [ ] X.3 Keep test runtime within agreed budget
-
-Pause/confirm: Share the parent list for confirmation before generating sub-tasks.
+- Ensure the PRD lists the module plan, test strategy, dependency policy, and reference architecture.
+- Confirm the architecture entry still matches the intended boundaries; update PRD/ARCH if out-of-sync before planning tasks.
 
 ---
 
-## Phase 2: Generate Sub-Tasks
+## 3. Parents First
 
-- After confirmation, expand each parent into sub-tasks (1–4 hours each).
-- Include acceptance criteria and explicit gates per `/rules/process-task-list.md`.
-- Prefer vertical slices that demonstrate real behavior end-to-end.
+Start the tasks file with parent-level bullets (checkbox lists recommended):
 
-Example sub-task shape:
+- [ ] **0.0 Establish architecture scaffolding**
+  - Covers creating the layout/stubs from the module plan, aligning code with the current ARCH, and agreeing on dependency expectations.
+- [ ] **Feature parents** — add one line per vertical slice or layer you plan to deliver.
+- [ ] **X.0 Align & prune tests**
+  - Retire mismatched tests, add/adjust coverage for new public behavior, and keep runtime within budget.
 
-- [ ] Implement Domain Policy A
-  - Acceptance: Public behavior covered by tests; boundaries respected per latest ARCH; ADR updated if a new runtime dep is introduced.
-  - Notes: Any ADR or trade-offs captured.
+Pause for human review only if the owner requests it.
 
 ---
 
-## Output of this step
+## 4. Expand into Sub-Tasks
 
-- A task list under `docs/tasks/<feature-slug>/vN/tasks.md` with parents (including 0.0 Scaffolding and X.0 Align & Prune Tests) and scoped sub-tasks ready for `/rules/process-task-list.md`.
-- Traceability notes linking parents/sub-tasks to sections in the PRD (`docs/prd/<feature-slug>/vN/prd.md`) and ARCH (`docs/architecture/ARCH-vN.md`).
+After parents are acceptable:
+
+- Break each parent into sub-tasks sized for ~1–4h of focused work.
+- Include acceptance criteria referencing the three gates (tests, boundaries, dependencies).
+- Point to relevant PRD sections, ARCH clauses, or ADR IDs for traceability.
+- Note any expected ADR or portfolio log updates.
+
+Prefer vertical slices that demonstrate real behavior end-to-end. It’s acceptable to batch tiny fixes if they touch the same slice and pass all gates together.
+
+---
+
+## Output of this Step
+
+- Updated tasks file at `docs/tasks/<feature-slug>-vN.md` with:
+  - Assessment snapshot
+  - Parent tasks (including 0.0 and X.0 entries)
+  - Sub-tasks with acceptance criteria and traceability notes
+- Optional link to the latest portfolio log entry for cross-team visibility.
+
+If scope or boundaries change mid-flight, bump to `vN+1`, copy the relevant sections, and note the supersession at the top of the new file.

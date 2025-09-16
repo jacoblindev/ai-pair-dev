@@ -1,58 +1,52 @@
-# Process Task List (lean v2)
+# Process Task List (lean v3)
 
-Purpose: Ship one sub-task at a time with crisp “done” gates to preserve structure, tests, and dependency hygiene. This builds directly on the original flow: implement → test → commit.
+Purpose: Ship one sub-task at a time with crisp done gates so structure, tests, and dependency hygiene stay intact.
 
 ---
 
 ## Working Protocol
 
-- One sub-task at a time. Don’t mix unrelated changes.
-- Start from scaffolding if not already done (0.0 tasks).
-- Keep changes small and independently testable.
-- Prefer vertical slices; keep API changes deliberate and documented.
-
-Commit style: conventional commits. Example: `feat(domain): add price rounding policy`.
+- Focus on one sub-task (or a tightly related batch within the same slice) at a time.
+- Start with scaffolding tasks if they are still open.
+- Keep changes small, independently testable, and aligned with the current architecture entry.
+- Use conventional commits (e.g., `feat(domain): add price rounding policy`).
 
 ---
 
-## Task Implementation / Completion Protocol
+## Completion Gates (per sub-task)
 
-Before marking a sub-task complete, pass these core gates:
+1. **Test / Behavior**
+   - Tests cover the new or changed public behavior.
+   - Update or retire obsolete tests in the same change.
+   - Keep local runtime within the agreed budget.
 
-1) Test/Behavior gate
+2. **Boundaries**
+   - Imports respect the applicable `docs/arch/<product>/ARCH-v*.md` rules and declared public APIs.
+   - Capture intentional deviations by updating the ARCH file or authoring a new ADR.
 
-    - Tests cover the new or changed public behavior.
-    - Obsolete tests are updated/removed in the same PR.
-    - Local runtime remains reasonable (agree within the team).
+3. **Dependencies**
+   - Any new runtime dependency has an ADR (alternatives, license, security posture) and human approval.
 
-2) Boundaries gate
+Optional extras (adopt if useful): size/complexity heuristics, architecture lint, simple dependency/license checks.
 
-    - Imports respect latest `docs/architecture/ARCH-v*.md` boundaries and declared public APIs.
-    - Any intentional deviation is documented (ADR/update ARCH under `docs/architecture/`).
-
-3) Dependency gate
-
-    - Any new runtime dependency has an ADR under `docs/adr/` (alternatives, license, security posture) and approval.
-
-Optional extras (adopt if useful):
-
-    - Heuristics for file/function size and cyclomatic complexity.
-    - Architecture lint (ArchUnit/eslint-boundaries) and simple dep/license checks.
-
-If any required gate fails, fix or split the work before proceeding.
+If a gate fails, either fix it immediately or split the work into a new sub-task.
 
 ---
 
-## Suggested Loop per Sub-Task
+## Suggested Loop
 
-1. Implement minimal code to meet acceptance criteria.
-2. Write/update tests aligned to public behavior.
-3. Run tests and any quick checks you use; update ADRs if deps changed.
-4. Commit with a conventional message.
-5. Open/Update PR, ensure CI passes (if applicable).
+1. Implement the minimal change to meet acceptance criteria.
+2. Write/update tests that exercise public behavior.
+3. Run tests and quick checks; update docs, ARCH, or ADRs as needed.
+4. Add a one-liner to `docs/portfolio/log.md` if the change impacts cross-product planning.
+5. Commit with a conventional message.
+6. Update the tasks file (check the box, link commits/ADRs, note follow-ups).
+7. Pause for review only when the owner requested it or when an ADR needs approval.
 
 ---
 
-## Output of this step
+## Output of this Step
 
-- A series of small, well-documented commits that pass core gates, ready to merge.
+- A series of small, documented commits that satisfy the gates.
+- Tasks file reflects progress and links to supporting ADRs/log entries.
+- Portfolio log captures noteworthy decisions or milestones.

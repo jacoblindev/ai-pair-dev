@@ -1,120 +1,101 @@
-# Create PRD (lean v2)
+# Create PRD (lean v3)
 
-Purpose: Produce a PRD clear enough for a junior developer to implement, while also steering structure and sustainability. Keep it concise, testable, and specific.
+Purpose: Deliver a PRD clear enough for a junior developer while steering architecture and sustainability with minimal ceremony.
 
-Reader assumptions: Write for a junior developer; be explicit, avoid jargon; prefer examples over prose.
-
-This is the v2 of the original guidance; the flow and intent are preserved: clarify → specify the product → constrain the solution. New in v2 are required sections to encode architecture and guardrails.
+Write for a junior teammate. Be explicit, avoid jargon, and prefer examples. Mark unused sections with `n/a` instead of deleting them.
 
 ---
 
-## Clarifying Questions (baseline)
+## Clarifying Questions
 
-Ask only what’s necessary to remove ambiguity. Examples:
+Ask only what removes ambiguity. Capture answers inline in the PRD.
 
-- Users: Who are the primary users? Any key personas or access roles?
-- Scope: What must be included vs explicitly out-of-scope in this iteration?
-- Success: What observable outcomes define success? What metrics/telemetry matter?
-- Constraints: Performance, privacy, compliance, budget, time, or platform limits?
-- Dependencies: Must integrate with existing systems, libraries, or services?
+Example prompts:
 
-Document answers briefly in the PRD.
+- Users & roles — Who benefits? Any access differences?
+- Scope — What’s in vs out for this iteration?
+- Success — Observable outcomes, metrics, KPIs?
+- Constraints — Performance, privacy, compliance, budget, timeline?
+- Dependencies — Required integrations, shared modules, external services?
+
+---
 
 ## PRD Sections (baseline)
 
-- Context: Why we’re doing this; short background.
-- Goals: The outcomes we want, in business or user terms.
-- Non-Goals: What we specifically won’t do now.
-- User Stories / Scenarios: “As a {{role}}, I want {{capability}} so {{benefit}}.”
-- Acceptance Criteria: Concrete, testable conditions; include edge cases.
-- UX Notes: Key interactions, states, and accessibility expectations.
-- Risks & Assumptions: Unknowns, external dependencies, fallbacks.
-- Telemetry & KPIs: Events, metrics, and success measurements.
+- **Context** — Why we’re doing this; brief background.
+- **Goals** — Desired user/business outcomes.
+- **Non-Goals** — Explicit exclusions for this iteration.
+- **User Stories / Scenarios** — “As a {{role}}, I want {{capability}} so {{benefit}}.”
+- **Acceptance Criteria** — Testable conditions, including edge cases.
+- **UX Notes** — Key interactions, states, accessibility expectations.
+- **Risks & Assumptions** — Unknowns, external dependencies, fallback plans.
+- **Telemetry & KPIs** — Events, metrics, and success measurements.
+- **Open Questions** — Outstanding unknowns that need a human decision.
 
-Keep these sections brief but unambiguous. Favor examples over prose.
+Keep each section concise and specific. Use bullet lists or tables when clearer.
 
 ---
 
 ## Reference Architecture (lean)
 
-Pick one and state why. Define module boundaries and allowed dependencies in a few bullets.
+Choose an approach (Hexagonal, Clean, Feature-sliced, etc.) and state why it fits.
 
-- Options: Hexagonal (Ports/Adapters), Clean Architecture, or Feature-Sliced.
-- Dependencies: Declare allowed vs forbidden cross-module imports.
-- Data flow: One high-level call-flow, e.g.:
-  - UI → Application Service → Domain → Port (Outbound) → Adapter (Infra)
-  - Public API → Feature module → Shared utils (read-only)
+Document:
 
-Include 3–5 bullets that describe the intended call paths and where state lives.
+- Module boundaries and allowed dependencies.
+- Expected data/call flows (3–5 bullets).
+- Where state lives and how it moves between modules.
+- Any shared or cross-product modules it touches.
 
-## Module Decomposition Plan (Required)
-
-Target directory layout and modules. For each module, specify:
-
-- Responsibility: What this module owns.
-- Public API: Types/functions/classes exposed to other modules.
-- Internal Notes: Hidden implementation details, state, and patterns used.
-- Estimated File Counts: Expected file sizes and how they’ll split.
-
-Example target layout:
-
-```sh
-src/
-  app/            # orchestration/services
-  domain/         # pure logic, entities, policies
-  infra/          # adapters (db/http/files)
-  ui/             # web/mobile/cli layers
-```
-
-## Suggested Size & Complexity Limits (Optional)
-
-- max_file_lines: 500 (suggested)
-- max_func_lines: 70 (suggested)
-- max_cyclomatic: 10 (suggested)
-
-Use these as heuristics, not hard gates. For small changes, you may skip.
-
-## Shared Conventions (Required)
-
-- Folder strategy: Choose one — feature-first or layer-first. Stick to it.
-- Cross-module access: Only through public interfaces defined in the Module Plan.
-- Naming: Consistent, descriptive names; avoid abbreviations. Keep modules small.
-
-## Test Strategy (Required)
-
-- Prefer unit and contract/API tests; minimize brittle snapshots.
-- If requirements change, obsolete tests are updated or removed in the same PR.
-- Focus on public behavior; avoid testing internals directly.
-- Keep local test runtime reasonable (e.g., under a few minutes) — agree with the team.
-
-## Dependency Policy (Required)
-
-- Any new runtime dependency must be justified with a short ADR (alternatives, license, security posture).
-- Prefer small dependency footprints; avoid adding deps for trivial utilities.
+This section seeds the `docs/arch/<product>/ARCH-vN.md` file.
 
 ---
 
-## Produce SD/SA From The PRD (lean)
+## Module Decomposition Plan (required)
 
-Right after finalizing the PRD, produce a lightweight System Design / Solution Architecture (SD/SA). Keep it to 1–2 pages and favor clear boundaries over prose.
+Target directory layout and ownership. For each module list:
 
-Inputs: The PRD. Outputs: `docs/architecture/ARCH-vN.md` (1–2 pages) + first `docs/adr/ADR-00xx-<short-title>.md`.
+- **Responsibility** — What the module owns.
+- **Public API** — Functions/types/classes exposed externally.
+- **Internal Notes** — Hidden implementation details or patterns.
+- **Estimated Footprint** — Rough file counts or size expectations.
 
-Include:
-
-- Architecture overview and primary drivers (performance, privacy, scale).
-- Module map: boundaries, allowed dependencies, and import rules (tie back to Module Plan).
-- Key contracts: Public APIs/interfaces between modules or external systems.
-- Data flow: One call-flow and state ownership decisions.
-- Non-functionals: Key budgets (latency/SLA/resource) and testability notes.
-- Tech choices: Libraries/services with a one-line rationale (details in ADR).
-- Risks: Top 3 risks and mitigations.
+Stick to the repo’s folder strategy (feature-first or layer-first) and note any intentional deviations.
 
 ---
 
-## Output of this step
+## Shared Conventions (required)
 
-- A PRD document including the sections above, plus a concise glossary if needed, saved to `docs/prd/<feature-slug>/vN/prd.md`.
-- A short SD/SA: `docs/architecture/ARCH-vN.md` + an ADR under `docs/adr/`, derived from the PRD.
+- Consistent naming; avoid ambiguous abbreviations.
+- Cross-module access only through declared public APIs.
+- Tests focus on public behaviors.
+- Keep local test runtime within a mutually agreed budget.
 
-Next: Use the SD/SA to drive the task list in `/rules/generate-tasks.md` and create `docs/tasks/<feature-slug>/vN/tasks.md`.
+Add any team-specific conventions here.
+
+---
+
+## Test Strategy (required)
+
+- Prefer unit, integration, and contract/API tests over brittle snapshots.
+- Update or retire obsolete tests within the same change.
+- Highlight critical scenarios for regression suites.
+
+---
+
+## Dependency Policy (required)
+
+- New runtime dependencies demand a short ADR (alternatives, license, security posture).
+- Prefer lightweight dependencies; don’t add one for trivial helpers.
+
+---
+
+## Output of this Step
+
+- Save the PRD to `docs/prd/<feature-slug>-vN.md`.
+- Immediately draft:
+  - `docs/arch/<product>/ARCH-vN.md` (1–2 pages) derived from the PRD.
+  - `docs/adr/ADR-00xx-<short-title>.md` capturing the main architectural decision.
+- Update `docs/arch/index.md` with the new/changed architecture entry.
+
+If scope or boundaries shift later, bump to `vN+1`, link the superseded version at the top, and note the change in `docs/portfolio/log.md`.
