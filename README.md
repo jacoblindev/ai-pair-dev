@@ -1,39 +1,25 @@
 # AI Pair Dev
 
-Lean workflow for agents + humans to iterate from PRD → architecture → tasks → sub-tasks with just enough guardrails.
+A lean workflow for agents and humans to iterate on software, from product requirements to implementation, with just enough guardrails.
 
-## Start Here
+## How It Works
 
-- Read `AGENTS.md` for the overview, artefacts, and rhythm.
-- Reference the detailed guardrails in:
-  - `rules/create-prd.md`
-  - `rules/generate-tasks.md`
-  - `rules/process-task-list.md`
+This repository defines a lightweight, document-driven process for AI-assisted development. The core idea is to use AI agents to draft artifacts and implement tasks, while humans provide guidance, make key decisions, and approve critical changes.
 
-## Docs Layout (flattened)
+The complete process, including detailed instructions for the AI agent, is in **`AGENTS.md`**.
 
-- PRD: `docs/prd/<feature-slug>-vN.md`
-- Architecture: `docs/arch/<product>/ARCH-vN.md`
-- Architecture index: `docs/arch/index.md`
-- ADRs: `docs/adr/ADR-00xx-<short-title>.md`
-- Tasks: `docs/tasks/<feature-slug>-vN.md`
-- Portfolio log: `docs/portfolio/log.md`
+## The Process in 5 Steps
 
-Sample templates live under `docs/templates/`.
+1. **Clarify & Scope**: The agent asks clarifying questions to define the work.
+2. **Draft**: The agent produces a PRD, Architecture design, and initial ADRs.
+3. **Plan**: The agent breaks the work down into a task list.
+4. **Build**: The agent (or a human) implements sub-tasks, following strict gates for tests, boundaries, and dependencies.
+5. **Decide & Log**: Key decisions are recorded in ADRs and a portfolio log.
 
-## Workflow Snapshot
+## Getting Started
 
-1. **Clarify** — Ask only what you need; capture answers inside the PRD.
-2. **Draft** — Produce PRD → Architecture → ADR in one pass (skip sections with `n/a` if irrelevant).
-3. **Plan** — Create tasks with 0.0 Scaffolding, feature parents, and X.0 Align & prune tests. Approvals are opt-in.
-4. **Implement** — Work one sub-task (1–4h slice) at a time; follow the three gates: tests, boundaries, dependencies.
-5. **Log** — Record structural or dependency decisions in an ADR plus a one-liner in the portfolio log.
-6. **Version** — Bump `vN` when scope or boundaries change; link superseded docs in the new version header.
-
-## Roles
-
-- **User** — Sets goals/constraints, answers clarification, chooses when to review or approve, signs off on ADRs that add runtime dependencies or cross-product impact.
-- **Agent** — Drafts artefacts, proposes tasks, implements sub-tasks, runs checks, keeps docs/logs updated, escalates only when decisions need humans.
+- **For Humans**: Read `AGENTS.md` once to understand the full workflow, roles, and guardrails.
+- **For Agents**: Follow the instructions in `AGENTS.md` and reference the rules in the `/rules` directory.
 
 ## License
 
