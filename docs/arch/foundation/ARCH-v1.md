@@ -1,6 +1,7 @@
 ---
 version: v1
 status: draft
+product: foundation
 ---
 
 # Architecture (SD/SA)

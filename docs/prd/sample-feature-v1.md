@@ -2,6 +2,7 @@
 version: v1
 status: draft
 slug: sample-feature
+product: foundation
 ---
 
 # PRD — Sample Feature
@@ -38,10 +39,15 @@ slug: sample-feature
 
 - Events, metrics, and success measures.
 
+## Open Questions
+
+- Outstanding decisions that require human input.
+
 ## Reference Architecture (lean)
 
 - Style: Hexagonal (Ports/Adapters) or similar; justify briefly.
 - Allowed imports and state ownership at a high level.
+- Shared modules touched and direction of dependencies.
 
 ## Module Decomposition Plan (required)
 
@@ -60,3 +66,4 @@ slug: sample-feature
 ## Dependency Policy (required)
 
 - New runtime deps need an ADR (alternatives, license, security posture).
+- Link ADR IDs once written and add a note to `docs/portfolio/log.md` for cross-product impact.
