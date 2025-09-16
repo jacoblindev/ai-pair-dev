@@ -1,1 +1,3 @@
-| <YYYY-MM-DD> | <One-line decision or milestone> | <Supporting docs: PRD/ARCH/ADR/tasks links> |
+# Portfolio Log Entry format template
+
+| {{YYYY-MM-DD}} | {{One-line decision or milestone}} | {{Supporting docs: PRD/ARCH/ADR/tasks links}} |
