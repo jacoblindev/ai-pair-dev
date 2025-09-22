@@ -4,11 +4,23 @@ Purpose: Deliver a PRD clear enough for a junior developer while steering archit
 
 Write for a junior teammate. Be explicit, avoid jargon, and prefer examples. Mark unused sections with `n/a` instead of deleting them.
 
+Start each PRD with metadata:
+
+```md
+Owner: {{name}}
+Active Agent: {{role or agent id}}
+Last touch: {{ISO timestamp}}
+Next decision needed: {{short phrase or `n/a`}}
+Handoff: docs/handoff/{{feature-slug}}-vN.md (optional)
+```
+
+Update these fields whenever the baton changes hands or scope shifts.
+
 ---
 
 ## Clarifying Questions
 
-Ask only what removes ambiguity. Capture answers inline in the PRD.
+Ask only what removes ambiguity. Capture answers inline in the PRD and note whether additional agents will join later so handoffs can be anticipated.
 
 Example prompts:
 
@@ -60,7 +72,7 @@ Target directory layout and ownership. For each module list:
 - **Internal Notes** — Hidden implementation details or patterns.
 - **Estimated Footprint** — Rough file counts or size expectations.
 
-Stick to the repo’s folder strategy (feature-first or layer-first) and note any intentional deviations.
+Stick to the repo’s folder strategy (feature-first or layer-first) and note any intentional deviations. Flag which modules may require separate agents if work will be split.
 
 ---
 
@@ -97,5 +109,6 @@ Add any team-specific conventions here.
   - `docs/arch/<product>/ARCH-vN.md` (1–2 pages) derived from the PRD.
   - `docs/adr/ADR-00xx-<short-title>.md` capturing the main architectural decision.
 - Update `docs/arch/index.md` with the new/changed architecture entry.
+- If another agent will pick up planning or implementation, create or refresh `docs/handoff/<feature-slug>-vN.md` with current status and link it in the PRD metadata.
 
 If scope or boundaries shift later, bump to `vN+1`, link the superseded version at the top, and note the change in `docs/portfolio/log.md`.
